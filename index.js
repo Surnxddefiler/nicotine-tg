@@ -19,7 +19,7 @@ bot.on('message', async (msg) => {
             reply_markup: {
                 keyboard: [
                     [{ text: 'Оформить заказ', web_app: { url: 'https://marvelous-kheer-25e032.netlify.app' } }],
-                    [{ text: 'админ', web_app: { url: 'https://marvelous-kheer-25e032.netlify.app'+'/admin' } }]
+                    [{ text: 'Админ', web_app: { url: 'https://marvelous-kheer-25e032.netlify.app'+'/admin' } }]
                 ],
                 resize_keyboard: true
             }
