@@ -1,12 +1,17 @@
 const TelegramBot = require('node-telegram-bot-api');
 
-const token = '5438460285:AAHWy9uynpIpXayaYKUgH44NewYIRXUO1I0'
+const token = '6110612220:AAHIuT4MPFWyahCy8FOcTRrHx0USSUAvS4I'
 
 const bot = new TelegramBot(token, { polling: true });
 
 
 bot.on('message', async (msg) => {
-    console.log(msg)
+
+    if (msg && msg.error && msg.error.code === 403) {
+        console.log('Пользователь заблокировал бота');
+        return; // Прекращаем обработку сообщения
+    }
+
     const chatId = msg.chat.id
     const text = msg.text
     if (text === '/start' && (msg.from.id === 951800184 || msg.from.id === 862045681)) {
