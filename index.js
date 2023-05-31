@@ -41,7 +41,7 @@ bot.on('message', async (msg) => {
             await bot.sendMessage(chatId, 'Заказ успешно оформлен, курьер - @ravenonstop в скором времени с вами свяжется ✅')
             console.log(data)
             await bot.sendMessage(-623730102, `\n ${data.val.time}, \n ${data.val.phone} \n ${data.place}, \n ${msg.from.username ? `@${msg.from.username}` :`-`} ${data.cart.map((el, i) => {
-            return `${el.mark} ${el.name} ${el.nicotine} `
+            return `\n ${el.mark}, ${el.name}, ${el.nicotine} `
             })}`)
         }
         catch {
