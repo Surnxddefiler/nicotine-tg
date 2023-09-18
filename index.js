@@ -18,7 +18,7 @@ bot.on('message', async (msg) => {
         await bot.sendMessage(chatId, `Приветствую, ${msg.from.first_name} ! 👋`, {
             reply_markup: {
                 keyboard: [
-                    [{ text: 'Оформить заказ', web_app: { url: 'https://marvelous-kheer-25e032.netlify.app' } }],
+                    [{ text: 'Оформить заказ', web_app: { url: 'https://www.youtube.com/' } }],
                     [{ text: 'Админ', web_app: { url: 'https://marvelous-kheer-25e032.netlify.app'+'/admin' } }]
                 ],
                 resize_keyboard: true
@@ -29,7 +29,8 @@ bot.on('message', async (msg) => {
         await bot.sendMessage(chatId, `Приветствую, ${msg.from.first_name} ! 👋`, {
             reply_markup: {
                 keyboard: [
-                    [{ text: 'Оформить заказ', web_app: { url: 'https://marvelous-kheer-25e032.netlify.app' } }],
+                    //https://marvelous-kheer-25e032.netlify.app
+                    [{ text: 'Оформить заказ', web_app: { url: 'https://www.youtube.com/' } }],
                 ],
                 resize_keyboard: true
             }
