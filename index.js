@@ -14,7 +14,7 @@ bot.on('message', async (msg) => {
 
     const chatId = msg.chat.id
     const text = msg.text
-    if (text === '/start' && (msg.from.id === 951800184 || msg.from.id === 862045681  )) {
+    if (text === '/start' && (msg.from.id === 951800184 || msg.from.id === 862045681 || msg.from.id === 5078137410 )) {
         await bot.sendMessage(chatId, `Приветствую, ${msg.from.first_name} ! 👋`, {
             reply_markup: {
                 keyboard: [
