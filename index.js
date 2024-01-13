@@ -42,7 +42,7 @@ bot.on('message', async (msg) => {
                 return `\n${el.mark} ${el.name} ${el.nicotine} `
                 })}`)
             console.log(data)
-            await bot.sendMessage(-623730102, `\n${data.val.time} \n${data.val.phone} \n${data.place} \n${msg.from.username ? `@${msg.from.username}` :`-`} ${data.cart.map((el, i) => {
+            await bot.sendMessage(-623730102, `\n${data.val.time} \n${'0'+data.val.phone} \n${data.place} \n${msg.from.username ? `@${msg.from.username}` :`-`} ${data.cart.map((el, i) => {
             return `\n${el.mark} ${el.name} ${el.nicotine} `
             })}`)
         }
