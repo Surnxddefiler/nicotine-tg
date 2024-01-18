@@ -38,10 +38,11 @@ bot.on('message', async (msg) => {
     if (msg.web_app_data) {
         try {
             const data = JSON.parse(msg.web_app_data.data)
+            console.log(data)
             await bot.sendMessage(chatId, `Заказ успешно оформлен, курьер - @ravenonstop в скором времени с вами свяжется ✅ \n \nВаш заказ : \n${!data.novaPoshta && data.val.time} \n${!data.novaPoshta ? data.place : `Доставка новой почтой: \n${data.town} \n${data.compartment}`}  ${data.cart.map((el, i) => {
                 return `\n${el.mark} ${el.name} ${el.nicotine} `
                 })}`)
-            console.log(data)
+         
             await bot.sendMessage(-623730102, `\n${data.val.time} \n${'0'+data.val.phone} \n${data.place} \n${msg.from.username ? `@${msg.from.username}` :`-`} ${data.cart.map((el, i) => {
             return `\n${el.mark} ${el.name} ${el.nicotine} `
             })}`)
