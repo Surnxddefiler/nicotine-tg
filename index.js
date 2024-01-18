@@ -38,7 +38,7 @@ bot.on('message', async (msg) => {
     if (msg.web_app_data) {
         try {
             const data = JSON.parse(msg.web_app_data.data)
-            console.log(data)
+            console.log(data.novaPoshta)
             await bot.sendMessage(chatId, `Заказ успешно оформлен, курьер - @ravenonstop в скором времени с вами свяжется ✅ \n \nВаш заказ : \n${!data.novaPoshta && data.val.time} \n${!data.novaPoshta ? data.place : `Доставка новой почтой: \n${data.town} \n${data.compartment}`}  ${data.cart.map((el, i) => {
                 return `\n${el.mark} ${el.name} ${el.nicotine} `
                 })}`)
