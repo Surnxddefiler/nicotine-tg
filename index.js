@@ -40,7 +40,7 @@ bot.on('message', async (msg) => {
             const data = JSON.parse(msg.web_app_data.data)
             console.log(data.novaPoshta)
             await bot.sendMessage(chatId, `Заказ успешно оформлен, курьер - @ravenonstop в скором времени с вами свяжется ✅ \n \nВаш заказ : ${data.novaPoshta ? '' :`\n${data.val.time}`} \n${!data.novaPoshta ? data.place : `Доставка новой почтой \n${data.val.town} \n${data.val.compartment}`}  ${data.cart.map((el, i) => {
-                return `\n${el.mark} ${el.name} ${el.nicotine} `
+                return `\n${el.isPod ? '' : el.mark} ${el.name} ${el.nicotine} `
                 })}`)
          
             await bot.sendMessage(-623730102, `\n${data.novaPoshta ? 'Новая Почта' : data.val.time} \n${'0'+data.val.phone} \n${data.novaPoshta ?  `${data.val.town} ${data.val.compartment}` :data.place} \n${msg.from.username ? `@${msg.from.username}` :`-`} ${data.cart.map((el, i) => {
