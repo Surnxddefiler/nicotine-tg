@@ -49,7 +49,7 @@ bot.on('message', async (msg) => {
                 })}`)
          
             await bot.sendMessage(-623730102, `\n${data.novaPoshta ? 'Новая Почта' : data.val.time} \n${'0'+data.val.phone} \n${data.novaPoshta ?  `${data.val.town} ${data.val.compartment}` :data.place} \n${msg.from.username ? `@${msg.from.username}` :`-`} ${data.cart.map((el, i) => {
-            return `\n${el.isPod ? null : el.mark} ${el.name} ${el.isPod ? null : el.nicotine} `
+            return `\n${el.isPod ? '' : el.mark} ${el.name} ${el.isPod ? '' : el.nicotine} `
             })}`)
         }
         catch {
