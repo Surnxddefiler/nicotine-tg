@@ -51,7 +51,7 @@ bot.on('message', async (msg) => {
                 }
                 })}`)
          
-            await bot.sendMessage(-623730102, `\n${data.novaPoshta ? 'Новая Почта' : data.val.time} \n${'0'+data.val.phone} \n${data.novaPoshta ?  `${data.val.town} ${data.val.compartment}` :data.place} \n${msg.from.username ? `@${msg.from.username}` :`-`} ${data.cart.map((el, i) => {
+            await bot.sendMessage(-623730102, `\n${data.novaPoshta ? 'Новая Почта' : data.val.time} \n${'0'+data.val.phone} \n${data.novaPoshta ?  `\n${data.val.name} ${data.val.town} ${data.val.compartment}` :data.place} \n${msg.from.username ? `@${msg.from.username}` :`-`} ${data.cart.map((el, i) => {
                 if(el.isPod==="МНОГОРАЗКИ"){
                     return `\n${el.name} `
                 }
