@@ -166,14 +166,20 @@ bot.on("message", async (msg) => {
 
 //message to all code
 bot.onText(/\/broadcast((.|\n)+)/, async (msg, match) => {
-  const users = await getUser();
-  const message = match[1];
-  users.forEach((user) => {
-    let chatId = user.chatId;
-    bot.sendMessage(chatId, message).catch((err) => {
-      console.error(`Ошибка отправки сообщения для ${chatId}:`, err);
+  if (
+    msg.from.id === 951800184 ||
+    msg.from.id === 862045681 ||
+    msg.from.id === 5078137410
+  ) {
+    const users = await getUser();
+    const message = match[1];
+    users.forEach((user) => {
+      let chatId = user.chatId;
+      bot.sendMessage(chatId, message).catch((err) => {
+        console.error(`Ошибка отправки сообщения для ${chatId}:`, err);
+      });
     });
-  });
 
-  bot.sendMessage(msg.chat.id, "Сообщение отправлено всем пользователям.");
+    bot.sendMessage(msg.chat.id, "Сообщение отправлено всем пользователям.");
+  }
 });
