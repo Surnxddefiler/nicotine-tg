@@ -4,6 +4,10 @@ const token = "6110612220:AAHIuT4MPFWyahCy8FOcTRrHx0USSUAvS4I";
 
 const bot = new TelegramBot(token, { polling: true });
 
+const uri =
+  "mongodb+srv://Nick:httpstmenicotineproduct@nicotine.qavv7uy.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri);
+
 //get users from db
 const getUser = async () => {
   await client.connect();
