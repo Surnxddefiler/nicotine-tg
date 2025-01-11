@@ -4,6 +4,44 @@ const token = "6110612220:AAHIuT4MPFWyahCy8FOcTRrHx0USSUAvS4I";
 
 const bot = new TelegramBot(token, { polling: true });
 
+//get users from db
+const getUser = async () => {
+  await client.connect();
+  const dbName = "test";
+  const collectionName = "Users";
+  const database = client.db(dbName);
+  const collection = database.collection(collectionName);
+  const documents = await collection.find({}).toArray();
+  return documents;
+};
+
+//save user code
+const saveUser = async (chatId, username) => {
+  try {
+    await client.connect();
+    const dbName = "test";
+    const collectionName = "Users";
+    const database = client.db(dbName);
+    const collection = database.collection(collectionName);
+
+    const existingUser = await collection.findOne({ chatId });
+    if (!existingUser) {
+      await collection.insertOne({ chatId, username });
+      console.log(
+        `Новый пользователь с chatId ${chatId} добавлен в базу данных.`
+      );
+    } else {
+      console.log(
+        `Пользователь с chatId ${chatId} уже существует в базе данных.`
+      );
+    }
+  } catch (error) {
+    console.error("Ошибка при сохранении пользователя:", error);
+  } finally {
+    await client.close();
+  }
+};
+
 bot.on("message", async (msg) => {
   if (msg && msg.error && msg.error.code === 403) {
     console.log("Пользователь заблокировал бота");
@@ -11,6 +49,7 @@ bot.on("message", async (msg) => {
   }
 
   const chatId = msg.chat.id;
+  const username = msg.chat.username;
   const text = msg.text;
   if (
     text === "/start" &&
@@ -39,6 +78,7 @@ bot.on("message", async (msg) => {
         resize_keyboard: true,
       },
     });
+    await saveUser(chatId, username);
   } else if (text === "/start") {
     await bot.sendMessage(chatId, `Приветствую, ${msg.from.first_name} ! 👋`, {
       reply_markup: {
@@ -53,6 +93,7 @@ bot.on("message", async (msg) => {
         resize_keyboard: true,
       },
     });
+    await saveUser(chatId, username);
   }
   if (msg.web_app_data) {
     try {
@@ -97,6 +138,21 @@ bot.on("message", async (msg) => {
           }
         })}`
       );
+      await saveUser(chatId, username);
     } catch {}
   }
+});
+
+//message to all code
+bot.onText(/\/broadcast((.|\n)+)/, async (msg, match) => {
+  const users = await getUser();
+  const message = match[1];
+  users.forEach((user) => {
+    let chatId = user.chatId;
+    bot.sendMessage(chatId, message).catch((err) => {
+      console.error(`Ошибка отправки сообщения для ${chatId}:`, err);
+    });
+  });
+
+  bot.sendMessage(msg.chat.id, "Сообщение отправлено всем пользователям.");
 });
