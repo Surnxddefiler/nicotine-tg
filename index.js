@@ -9,10 +9,19 @@ const { MongoClient } = require("mongodb");
 const uri =
   "mongodb+srv://Nick:httpstmenicotineproduct@nicotine.qavv7uy.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
+let isClientConnected = false;
+
+const connectToMongoDB = async () => {
+  if (!isClientConnected) {
+    await client.connect();
+    isClientConnected = true;
+    console.log("Подключение к MongoDB установлено.");
+  }
+};
 
 //get users from db
 const getUser = async () => {
-  await client.connect();
+  await connectToMongoDB();
   const dbName = "test";
   const collectionName = "Users";
   const database = client.db(dbName);
@@ -24,7 +33,7 @@ const getUser = async () => {
 //save user code
 const saveUser = async (chatId, username) => {
   try {
-    await client.connect();
+    await connectToMongoDB();
     const dbName = "test";
     const collectionName = "Users";
     const database = client.db(dbName);
@@ -43,10 +52,16 @@ const saveUser = async (chatId, username) => {
     }
   } catch (error) {
     console.error("Ошибка при сохранении пользователя:", error);
-  } finally {
-    await client.close();
   }
 };
+
+process.on("SIGINT", async () => {
+  if (isClientConnected) {
+    await client.close();
+    console.log("Соединение с MongoDB закрыто.");
+    process.exit(0);
+  }
+});
 
 bot.on("message", async (msg) => {
   if (msg && msg.error && msg.error.code === 403) {
