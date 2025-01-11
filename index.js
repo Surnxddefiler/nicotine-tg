@@ -4,6 +4,8 @@ const token = "6110612220:AAHIuT4MPFWyahCy8FOcTRrHx0USSUAvS4I";
 
 const bot = new TelegramBot(token, { polling: true });
 
+const { MongoClient } = require("mongodb");
+
 const uri =
   "mongodb+srv://Nick:httpstmenicotineproduct@nicotine.qavv7uy.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
