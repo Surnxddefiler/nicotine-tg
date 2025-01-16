@@ -136,7 +136,11 @@ bot.on("message", async (msg) => {
           } else {
             return `\n${el.mark} ${el.name} ${el.nicotine} `;
           }
-        })}`,
+        })}
+        \n\nСумма: ${data.pay} ${
+          data.deliv || data.novaPoshta ? "+Доставка" : ""
+        }
+        `,
         { disable_web_page_preview: true }
       );
 
