@@ -122,7 +122,7 @@ bot.on("message", async (msg) => {
       console.log(data.novaPoshta);
       await bot.sendMessage(
         chatId,
-        `Заказ успешно оформлен, курьер - @tcdrpntcn в скором времени с вами свяжется ✅ \n \n НОВЫЙ КАНАЛ - https://t.me/nktproduct  \n \nВаш заказ :\n${
+        `Заказ успешно оформлен, саппорт - @nicotineproductsupport  в скором времени с вами свяжется ✅ \n \nАктуальный канал - https://t.me/nicotineproduct 📖 \n \nРЕЗЕРВНЫЙ канал - https://t.me/reservenicotineproduct 📖❗️ \n \nВаш заказ :\n${
           data.val.phone
         } ${data.novaPoshta ? "" : `\n${data.val.time}`} \n${
           !data.novaPoshta
