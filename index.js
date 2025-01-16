@@ -162,7 +162,11 @@ bot.on("message", async (msg) => {
           } else {
             return `\n${el.mark} ${el.name} ${el.nicotine} `;
           }
-        })}`
+        })}
+        \n\nСумма: ${data.pay} ₴ ${
+          data.deliv || data.novaPoshta ? "+Доставка" : ""
+        }
+        `
       );
       await saveUser(chatId, username);
     } catch {}
