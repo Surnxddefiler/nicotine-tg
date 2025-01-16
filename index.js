@@ -122,7 +122,7 @@ bot.on("message", async (msg) => {
       console.log(data);
       await bot.sendMessage(
         chatId,
-        `Заказ успешно оформлен, саппорт - @nicotineproductsupport  в скором времени с вами свяжется ✅ \nА\nктуальный канал - https://t.me/nicotineproduct 📖 \nРЕЗЕРВНЫЙ канал - https://t.me/reservenicotineproduct 📖❗️ \nВаш заказ :\n${
+        `Заказ успешно оформлен, саппорт - @nicotineproductsupport  в скором времени с вами свяжется ✅ \n\Аnктуальный канал - https://t.me/nicotineproduct 📖 \nРЕЗЕРВНЫЙ канал - https://t.me/reservenicotineproduct 📖❗️ \nВаш заказ :\n${
           data.val.phone
         } ${data.novaPoshta ? "" : `\n${data.val.time}`} \n${
           !data.novaPoshta
@@ -163,7 +163,7 @@ bot.on("message", async (msg) => {
             return `\n${el.mark} ${el.name} ${el.nicotine} `;
           }
         })}
-        \nСумма: ${data.pay} ₴ ${
+        \nСумма : ${data.pay} ₴ ${
           data.deliv || data.novaPoshta ? "+ доставка" : ""
         }
         `
