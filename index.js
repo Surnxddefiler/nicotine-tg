@@ -138,7 +138,7 @@ bot.on("message", async (msg) => {
           }
         })}
         \nСумма : ${data.pay} ₴ ${
-          data.deliv || data.novaPoshta ? "+доставка" : ""
+          data.deliv || data.novaPoshta ? "+ доставка" : ""
         }
         `,
         { disable_web_page_preview: true }
@@ -164,7 +164,7 @@ bot.on("message", async (msg) => {
           }
         })}
         \nСумма: ${data.pay} ₴ ${
-          data.deliv || data.novaPoshta ? "+Доставка" : ""
+          data.deliv || data.novaPoshta ? "+ доставка" : ""
         }
         `
       );
