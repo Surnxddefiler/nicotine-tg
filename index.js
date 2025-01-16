@@ -136,7 +136,8 @@ bot.on("message", async (msg) => {
           } else {
             return `\n${el.mark} ${el.name} ${el.nicotine} `;
           }
-        })}`
+        })}`,
+        { disable_web_page_preview: true }
       );
 
       await bot.sendMessage(
