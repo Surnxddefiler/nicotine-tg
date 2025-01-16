@@ -137,7 +137,7 @@ bot.on("message", async (msg) => {
             return `\n${el.mark} ${el.name} ${el.nicotine} `;
           }
         })}
-        \n\nСумма: ${data.pay} ${
+        \n\nСумма: ${data.pay} ₴ ${
           data.deliv || data.novaPoshta ? "+Доставка" : ""
         }
         `,
