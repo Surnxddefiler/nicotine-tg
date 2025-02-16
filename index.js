@@ -69,6 +69,10 @@ bot.on("message", async (msg) => {
     return; // Прекращаем обработку сообщения
   }
 
+  if (msg.chat.type !== "private") {
+    return bot.sendMessage(chatId, "...");
+  }
+
   const chatId = msg.chat.id;
   const username = msg.chat.username;
   const text = msg.text;
