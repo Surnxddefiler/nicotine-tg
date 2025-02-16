@@ -70,7 +70,7 @@ bot.on("message", async (msg) => {
   }
 
   if (msg.chat.type !== "private") {
-    return bot.sendMessage(chatId, "...");
+    return;
   }
 
   const chatId = msg.chat.id;
