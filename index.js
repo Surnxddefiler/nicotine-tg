@@ -186,13 +186,22 @@ bot.onText(/\/broadcast((.|\n)+)/, async (msg, match) => {
   ) {
     const users = await getUser();
     const message = match[1];
-    users.forEach((user) => {
-      let chatId = user.chatId;
-      bot.sendMessage(chatId, message).catch((err) => {
-        console.error(`Ошибка отправки сообщения для ${chatId}:`, err);
-      });
-    });
+    let successCount = 0;
+    let failedCount = 0;
 
-    bot.sendMessage(msg.chat.id, "Сообщение отправлено всем пользователям.");
+    for (const user of users) {
+      try {
+        await bot.sendMessage(user.chatId, message);
+        successCount++;
+      } catch (err) {
+        console.error(`Ошибка отправки сообщения для ${user.chatId}:`, err);
+        failedCount++;
+      }
+    }
+
+    bot.sendMessage(
+      msg.chat.id,
+      `Сообщение отправлено ${successCount} пользователям. Ошибок: ${failedCount}.`
+    );
   }
 });
