@@ -199,7 +199,7 @@ bot.on("message", async (msg) => {
     }
     await bot.sendMessage(chatId, orderMessage, {
       reply_markup: {
-        keyboard: [urls],
+        keyboard: urls,
       },
     });
   }
