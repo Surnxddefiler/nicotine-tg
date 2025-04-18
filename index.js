@@ -158,9 +158,11 @@ bot.on("message", async (msg) => {
     }
     let orderMessage = "";
     let urls = [];
+    const icons = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"];
+    let index = 0;
     for (const order of user.orders) {
       //формируем сообщение
-      orderMessage += `${order.val.phone} ${
+      orderMessage += `${icons[index]}\n ${order.val.phone} ${
         order.novaPoshta ? "" : `\n${order.val.time}`
       } \n${
         !order.novaPoshta
@@ -188,9 +190,10 @@ bot.on("message", async (msg) => {
       const encodedOrder = encodeURIComponent(orderData);
       const formUrl = `https://marvelous-kheer-25e032.netlify.app?order=${encodedOrder}`;
       urls.push({
-        text: "Повторить этот заказ",
+        text: `Повторить этот заказ${icons[index]}`,
         web_app: { url: formUrl },
       });
+      index++;
     }
     await bot.sendMessage(chatId, orderMessage, {
       reply_markup: {
