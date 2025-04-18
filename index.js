@@ -1,5 +1,5 @@
 const TelegramBot = require("node-telegram-bot-api");
-
+//6110612220:AAHIuT4MPFWyahCy8FOcTRrHx0USSUAvS4I
 const token = "6110612220:AAHIuT4MPFWyahCy8FOcTRrHx0USSUAvS4I";
 
 const bot = new TelegramBot(token, { polling: true });
@@ -31,7 +31,7 @@ const getUser = async () => {
 };
 
 //save user code
-const saveUser = async (chatId, username) => {
+const saveUser = async (chatId, username, data) => {
   try {
     await connectToMongoDB();
     const dbName = "test";
@@ -41,11 +41,33 @@ const saveUser = async (chatId, username) => {
 
     const existingUser = await collection.findOne({ chatId });
     if (!existingUser) {
-      await collection.insertOne({ chatId, username });
+      if (data) {
+        await collection.insertOne({
+          chatId,
+          username,
+          orders: [data],
+        });
+      } else {
+        await collection.insertOne({
+          chatId,
+          username,
+        });
+      }
       console.log(
         `Новый пользователь с chatId ${chatId} добавлен в базу данных.`
       );
     } else {
+      if (data) {
+        const updatedOrders = existingUser.orders || [];
+        updatedOrders.unshift(data); // Добавляем заказ в начало
+        if (updatedOrders.length > 5) {
+          updatedOrders.pop(); // Удаляем самый старый заказ (в конце массива)
+        }
+        await collection.updateOne(
+          { chatId },
+          { $set: { orders: updatedOrders } }
+        );
+      }
       console.log(
         `Пользователь с chatId ${chatId} уже существует в базе данных.`
       );
@@ -64,6 +86,7 @@ process.on("SIGINT", async () => {
 });
 
 bot.on("message", async (msg) => {
+  console.log(msg);
   if (msg && msg.error && msg.error.code === 403) {
     console.log("Пользователь заблокировал бота");
     return; // Прекращаем обработку сообщения
@@ -99,11 +122,16 @@ bot.on("message", async (msg) => {
               },
             },
           ],
+          [
+            {
+              text: "История заказов",
+            },
+          ],
         ],
         resize_keyboard: true,
       },
     });
-    await saveUser(chatId, username);
+    await saveUser(chatId, username, false);
   } else if (text === "/start") {
     await bot.sendMessage(chatId, `Приветствую, ${msg.from.first_name} ! 👋`, {
       reply_markup: {
@@ -118,7 +146,60 @@ bot.on("message", async (msg) => {
         resize_keyboard: true,
       },
     });
-    await saveUser(chatId, username);
+    await saveUser(chatId, username, false);
+  } else if (text === "История заказов") {
+    await connectToMongoDB();
+    const db = client.db("test");
+    const users = db.collection("Users");
+
+    const user = await users.findOne({ chatId });
+
+    if (!user || !user.orders || user.orders.length === 0) {
+      return bot.sendMessage(chatId, "История заказов пока отсутсвует");
+    }
+    for (const order of user.orders) {
+      //формируем сообщение
+      const orderMessage = `${order.val.phone} ${
+        order.novaPoshta ? "" : `\n${order.val.time}`
+      } \n${
+        !order.novaPoshta
+          ? `${data.place} \nОплата:${
+              data.val.poltavapayment
+                ? "Карта"
+                : `Сдача с: ${data.val.cashAmount}`
+            }`
+          : `Доставка новой почтой \n${order.val.name} \n${order.val.town} \n${order.val.compartment}`
+      }  ${order.cart.map((el, i) => {
+        if (el.isPod === "МНОГОРАЗКИ") {
+          return `\n${el.name} `;
+        } else if (el.isPod === "КАРТРИДЖИ") {
+          return `\n${el.name} ${el.nicotine} `;
+        } else {
+          return `\n${el.mark} ${el.name} ${el.nicotine} `;
+        }
+      })}
+      \nСумма : ${order.pay} ₴ ${
+        order.deliv || order.novaPoshta ? "+ доставка" : ""
+      }`;
+
+      //формируем юрл
+      const orderData = JSON.stringify(order);
+      const encodedOrder = encodeURIComponent(orderData);
+      const formUrl = `https://marvelous-kheer-25e032.netlify.app?order=${encodedOrder}`;
+
+      await bot.sendMessage(chatId, orderMessage, {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              {
+                text: "Повторить этот заказ",
+                url: formUrl,
+              },
+            ],
+          ],
+        },
+      });
+    }
   }
   if (msg.web_app_data) {
     try {
@@ -130,8 +211,12 @@ bot.on("message", async (msg) => {
           data.val.phone
         } ${data.novaPoshta ? "" : `\n${data.val.time}`} \n${
           !data.novaPoshta
-            ? data.place
-            : `Доставка новой почтой \n${data.val.name} \n${data.val.town} \n${data.val.compartment}`
+            ? `${data.place} \nОплата:${
+                data.val.poltavapayment
+                  ? "Карта"
+                  : `Сдача с: ${data.val.cashAmount}`
+              }`
+            : `Доставка новой почтой \n${data.val.name} \n${data.val.town} \n${data.val.compartment} \n${data.val.payment}`
         }  ${data.cart.map((el, i) => {
           if (el.isPod === "МНОГОРАЗКИ") {
             return `\n${el.name} `;
@@ -150,12 +235,16 @@ bot.on("message", async (msg) => {
 
       await bot.sendMessage(
         -623730102,
-        `\n${data.novaPoshta ? "Новая Почта" : data.val.time} \n${
+        `\n${data.novaPoshta ? "Новая Почта" : `${data.val.time}`} \n${
           data.val.phone
         } \n${
           data.novaPoshta
-            ? `${data.val.name} \n${data.val.town} ${data.val.compartment}`
-            : data.place
+            ? `${data.val.name} \n${data.val.town} ${data.val.compartment} ${data.val.payment}`
+            : `${data.place} \n${
+                data.val.poltavapayment
+                  ? "Карта"
+                  : `Сдача с: ${data.val.cashAmount}`
+              }`
         } \n${
           msg.from.username ? `@${msg.from.username}` : `-`
         } ${data.cart.map((el, i) => {
@@ -172,7 +261,7 @@ bot.on("message", async (msg) => {
         }
         `
       );
-      await saveUser(chatId, username);
+      await saveUser(chatId, username, data);
     } catch {}
   }
 });
@@ -185,23 +274,38 @@ bot.onText(/\/broadcast((.|\n)+)/, async (msg, match) => {
     msg.from.id === 5078137410
   ) {
     const users = await getUser();
-    const message = match[1];
+
+    const caption = (match[1]?.trim() || msg.caption || "").trim();
+    const photo = msg.photo?.[msg.photo.length - 1];
+    const video = msg.video;
+
     let successCount = 0;
     let failedCount = 0;
 
     for (const user of users) {
       try {
-        await bot.sendMessage(user.chatId, message);
+        if (video) {
+          await bot.sendVideo(user.chatId, video.file_id, {
+            caption,
+          });
+        } else if (photo) {
+          await bot.sendPhoto(user.chatId, photo.file_id, {
+            caption,
+          });
+        } else {
+          await bot.sendMessage(user.chatId, caption);
+        }
+
         successCount++;
       } catch (err) {
-        console.error(`Ошибка отправки сообщения для ${user.chatId}:`, err);
+        console.error(`Ошибка отправки для ${user.chatId}:`, err.message);
         failedCount++;
       }
     }
 
     bot.sendMessage(
       msg.chat.id,
-      `Сообщение отправлено ${successCount} пользователям. Ошибок: ${failedCount}.`
+      `Рассылка завершена.\n✅ Успешно: ${successCount}\n❌ Ошибки: ${failedCount}`
     );
   }
 });
