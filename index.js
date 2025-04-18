@@ -162,7 +162,7 @@ bot.on("message", async (msg) => {
     let index = 0;
     for (const order of user.orders) {
       //формируем сообщение
-      orderMessage += `${icons[index]}\n ${order.val.phone} ${
+      orderMessage += `\n${icons[index]}\n ${order.val.phone} ${
         order.novaPoshta ? "" : `\n${order.val.time}`
       } \n${
         !order.novaPoshta
@@ -197,6 +197,11 @@ bot.on("message", async (msg) => {
       ]);
       index++;
     }
+    urls.push([
+      {
+        text: `Назад`,
+      },
+    ]);
     await bot.sendMessage(chatId, orderMessage, {
       reply_markup: {
         keyboard: urls,
