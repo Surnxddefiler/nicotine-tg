@@ -214,7 +214,7 @@ bot.on("message", async (msg) => {
             ? `${data.place} \nОплата:${
                 data.val.poltavapayment
                   ? "Карта"
-                  : `Сдача с: ${data.val.cashAmount}`
+                  : ` Сдача с ${data.val.cashAmount}`
               }`
             : `Доставка новой почтой \n${data.val.name} \n${data.val.town} \n${data.val.compartment} \n${data.val.payment}`
         }  ${data.cart.map((el, i) => {
@@ -243,7 +243,7 @@ bot.on("message", async (msg) => {
             : `${data.place} \n${
                 data.val.poltavapayment
                   ? "Карта"
-                  : `Сдача с: ${data.val.cashAmount}`
+                  : ` Сдача с ${data.val.cashAmount}`
               }`
         } \n${
           msg.from.username ? `@${msg.from.username}` : `-`
