@@ -213,8 +213,8 @@ bot.on("message", async (msg) => {
           !data.novaPoshta
             ? `${data.place} \nОплата:${
                 data.val.poltavapayment
-                  ? "Карта"
-                  : ` Сдача с ${data.val.cashAmount}`
+                  ? "карта"
+                  : ` сдача с ${data.val.cashAmount}`
               }`
             : `Доставка новой почтой \n${data.val.name} \n${data.val.town} \n${data.val.compartment} \n${data.val.payment}`
         }  ${data.cart.map((el, i) => {
@@ -242,8 +242,8 @@ bot.on("message", async (msg) => {
             ? `${data.val.name} \n${data.val.town} ${data.val.compartment} ${data.val.payment}`
             : `${data.place} \n${
                 data.val.poltavapayment
-                  ? "Карта"
-                  : ` Сдача с ${data.val.cashAmount}`
+                  ? "карта"
+                  : ` сдача с ${data.val.cashAmount}`
               }`
         } \n${
           msg.from.username ? `@${msg.from.username}` : `-`
