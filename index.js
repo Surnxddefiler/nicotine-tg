@@ -194,7 +194,7 @@ bot.on("message", async (msg) => {
     }
     await bot.sendMessage(chatId, orderMessage, {
       reply_markup: {
-        inline_keyboard: [urls],
+        keyboard: [urls],
       },
     });
   }
