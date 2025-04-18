@@ -189,10 +189,12 @@ bot.on("message", async (msg) => {
       const orderData = JSON.stringify(order);
       const encodedOrder = encodeURIComponent(orderData);
       const formUrl = `https://marvelous-kheer-25e032.netlify.app?order=${encodedOrder}`;
-      urls.push({
-        text: `Повторить этот заказ${icons[index]}`,
-        web_app: { url: formUrl },
-      });
+      urls.push([
+        {
+          text: `Повторить заказ ${icons[index]}`,
+          web_app: { url: formUrl },
+        },
+      ]);
       index++;
     }
     await bot.sendMessage(chatId, orderMessage, {
