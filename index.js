@@ -156,9 +156,11 @@ bot.on("message", async (msg) => {
     if (!user || !user.orders || user.orders.length === 0) {
       return bot.sendMessage(chatId, "История заказов пока отсутсвует");
     }
+    let orderMessage = "";
+    let urls = [];
     for (const order of user.orders) {
       //формируем сообщение
-      const orderMessage = `${order.val.phone} ${
+      orderMessage += `${order.val.phone} ${
         order.novaPoshta ? "" : `\n${order.val.time}`
       } \n${
         !order.novaPoshta
@@ -179,27 +181,22 @@ bot.on("message", async (msg) => {
       })}
       \nСумма : ${order.pay} ₴ ${
         order.deliv || order.novaPoshta ? "+ доставка" : ""
-      }`;
+      } \n`;
 
       //формируем юрл
       const orderData = JSON.stringify(order);
       const encodedOrder = encodeURIComponent(orderData);
       const formUrl = `https://marvelous-kheer-25e032.netlify.app?order=${encodedOrder}`;
-
-      await bot.sendMessage(chatId, orderMessage, {
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                text: "Повторить этот заказ",
-                web_app: { url: formUrl },
-                // url: formUrl,
-              },
-            ],
-          ],
-        },
+      urls.push({
+        text: "Повторить этот заказ",
+        web_app: { url: formUrl },
       });
     }
+    await bot.sendMessage(chatId, orderMessage, {
+      reply_markup: {
+        inline_keyboard: [urls],
+      },
+    });
   }
   if (msg.web_app_data) {
     try {
