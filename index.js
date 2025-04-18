@@ -192,7 +192,7 @@ bot.on("message", async (msg) => {
             [
               {
                 text: "Повторить этот заказ",
-                url: formUrl,
+                web_app: { url: formUrl },
               },
             ],
           ],
