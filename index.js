@@ -86,7 +86,6 @@ process.on("SIGINT", async () => {
 });
 
 bot.on("message", async (msg) => {
-  console.log(msg);
   if (msg && msg.error && msg.error.code === 403) {
     console.log("Пользователь заблокировал бота");
     return; // Прекращаем обработку сообщения
@@ -163,10 +162,10 @@ bot.on("message", async (msg) => {
         order.novaPoshta ? "" : `\n${order.val.time}`
       } \n${
         !order.novaPoshta
-          ? `${data.place} \nОплата:${
-              data.val.poltavapayment
+          ? `${order.place} \nОплата:${
+              order.val.poltavapayment
                 ? "Карта"
-                : `Сдача с: ${data.val.cashAmount}`
+                : `Сдача с: ${order.val.cashAmount}`
             }`
           : `Доставка новой почтой \n${order.val.name} \n${order.val.town} \n${order.val.compartment}`
       }  ${order.cart.map((el, i) => {
