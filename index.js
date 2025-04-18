@@ -208,6 +208,7 @@ bot.on("message", async (msg) => {
     ]);
     await bot.sendMessage(chatId, orderMessage, {
       reply_markup: {
+        resize_keyboard: true,
         keyboard: urls,
       },
     });
