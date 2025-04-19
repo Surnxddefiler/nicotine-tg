@@ -127,7 +127,7 @@ bot.on("message", async (msg) => {
           ],
           [
             {
-              text: "История заказов",
+              text: "История последних заказов",
             },
           ],
         ],
@@ -150,7 +150,7 @@ bot.on("message", async (msg) => {
       },
     });
     await saveUser(chatId, username, false);
-  } else if (text === "История заказов") {
+  } else if (text === "История последних заказов") {
     await connectToMongoDB();
     const db = client.db("test");
     const users = db.collection("Users");
@@ -257,7 +257,7 @@ bot.on("message", async (msg) => {
             : `${data.place} \n${
                 data.val.poltavapayment === "Наличные"
                   ? `${data.val.poltavapayment} ${
-                      data.val.cashAmount ? data.val.cashAmount : ""
+                      data.val.cashAmount ? `${data.val.cashAmount}₴` : ""
                     }`
                   : `Карта`
               }`
