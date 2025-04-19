@@ -217,6 +217,34 @@ bot.on("message", async (msg) => {
     try {
       const data = JSON.parse(msg.web_app_data.data);
       console.log(data);
+
+      let keyboard = [
+        [
+          {
+            text: "Оформить заказ",
+            web_app: {
+              url: "https://marvelous-kheer-25e032.netlify.app",
+            },
+          },
+        ],
+      ];
+
+      // Добавим ещё одну кнопку, если chatId совпадает
+      if (
+        msg.from.id === 951800184 ||
+        msg.from.id === 862045681 ||
+        msg.from.id === 5078137410
+      ) {
+        keyboard.push([
+          {
+            text: "Админ",
+            web_app: {
+              url: "https://marvelous-kheer-25e032.netlify.app" + "/admin",
+            },
+          },
+        ]);
+      }
+
       await bot.sendMessage(
         chatId,
         `Заказ успешно оформлен, саппорт - @nicotineproductsupport  в скором времени с вами свяжется ✅ \n\nАктуальный канал - https://t.me/reservenpnp 📖 \n\nВаш заказ :\n${
@@ -247,16 +275,7 @@ bot.on("message", async (msg) => {
         {
           disable_web_page_preview: true,
           reply_markup: {
-            keyboard: [
-              [
-                {
-                  text: "Оформить заказ",
-                  web_app: {
-                    url: "https://marvelous-kheer-25e032.netlify.app",
-                  },
-                },
-              ],
-            ],
+            keyboard: keyboard,
             resize_keyboard: true,
           },
         }
