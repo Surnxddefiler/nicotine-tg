@@ -170,7 +170,7 @@ bot.on("message", async (msg) => {
         order.novaPoshta ? "" : `\n${order.val.time}`
       } \n${
         !order.novaPoshta
-          ? `${order.place} \nОплата:${
+          ? `${order.place} \n${
               order.val.poltavapayment
                 ? " карта"
                 : ` сдача с ${order.val.cashAmount}`
