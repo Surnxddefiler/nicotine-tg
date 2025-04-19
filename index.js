@@ -175,7 +175,7 @@ bot.on("message", async (msg) => {
                 ? " карта"
                 : ` сдача с ${order.val.cashAmount}`
             }`
-          : `Доставка новой почтой \n${order.val.name} \n${order.val.town} \n${order.val.compartment}`
+          : `Доставка новой почтой \n${order.val.name} \n${order.val.town} \n${order.val.compartment} \n${order.val.payment}`
       }  ${order.cart.map((el, i) => {
         if (el.isPod === "МНОГОРАЗКИ") {
           return `\n${el.name} `;
@@ -223,10 +223,12 @@ bot.on("message", async (msg) => {
           data.val.phone
         } ${data.novaPoshta ? "" : `\n${data.val.time}`} \n${
           !data.novaPoshta
-            ? `${data.place} \nОплата:${
-                data.val.poltavapayment
-                  ? "карта"
-                  : ` сдача с ${data.val.cashAmount}`
+            ? `${data.place} \n${
+                data.val.poltavapayment === "Наличные"
+                  ? `${data.val.poltavapayment} ${
+                      data.val.cashAmount ? data.val.cashAmount : ""
+                    }`
+                  : `Карта`
               }`
             : `Доставка новой почтой \n${data.val.name} \n${data.val.town} \n${data.val.compartment} \n${data.val.payment}`
         }  ${data.cart.map((el, i) => {
@@ -253,9 +255,11 @@ bot.on("message", async (msg) => {
           data.novaPoshta
             ? `${data.val.name} \n${data.val.town} ${data.val.compartment} ${data.val.payment}`
             : `${data.place} \n${
-                data.val.poltavapayment
-                  ? " карта"
-                  : ` сдача с ${data.val.cashAmount}`
+                data.val.poltavapayment === "Наличные"
+                  ? `${data.val.poltavapayment} ${
+                      data.val.cashAmount ? data.val.cashAmount : ""
+                    }`
+                  : `Карта`
               }`
         } \n${
           msg.from.username ? `@${msg.from.username}` : `-`
