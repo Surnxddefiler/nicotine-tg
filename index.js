@@ -244,7 +244,22 @@ bot.on("message", async (msg) => {
           data.deliv || data.novaPoshta ? "+ доставка" : ""
         }
         `,
-        { disable_web_page_preview: true }
+        {
+          disable_web_page_preview: true,
+          reply_markup: {
+            keyboard: [
+              [
+                {
+                  text: "Оформить заказ",
+                  web_app: {
+                    url: "https://marvelous-kheer-25e032.netlify.app",
+                  },
+                },
+              ],
+            ],
+            resize_keyboard: true,
+          },
+        }
       );
 
       await bot.sendMessage(
