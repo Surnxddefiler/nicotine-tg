@@ -127,7 +127,7 @@ bot.on("message", async (msg) => {
           ],
           [
             {
-              text: "История последних заказов",
+              text: "Повторить заказ ранее",
             },
           ],
         ],
@@ -150,7 +150,7 @@ bot.on("message", async (msg) => {
       },
     });
     await saveUser(chatId, username, false);
-  } else if (text === "История последних заказов") {
+  } else if (text === "Повторить заказ ранее") {
     await connectToMongoDB();
     const db = client.db("test");
     const users = db.collection("Users");
@@ -171,7 +171,7 @@ bot.on("message", async (msg) => {
       } \n${
         !order.novaPoshta
           ? `${order.place} \n${
-              order.val.poltavapayment
+              order.val.poltavapayment === "Картой"
                 ? " карта"
                 : ` сдача с ${order.val.cashAmount}`
             }`
