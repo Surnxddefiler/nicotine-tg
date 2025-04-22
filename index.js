@@ -5,9 +5,7 @@ const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 
 const { MongoClient } = require("mongodb");
 
-const uri =
-  "mongodb+srv://Nick:httpstmenicotineproduct@nicotine.qavv7uy.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri);
+const client = new MongoClient(process.env.MONGODB);
 let isClientConnected = false;
 
 const connectToMongoDB = async () => {
