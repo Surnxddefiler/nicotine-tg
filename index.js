@@ -144,6 +144,11 @@ bot.on("message", async (msg) => {
               web_app: { url: "https://marvelous-kheer-25e032.netlify.app" },
             },
           ],
+          [
+            {
+              text: "Повторить заказ ранее",
+            },
+          ],
         ],
         resize_keyboard: true,
       },
@@ -226,6 +231,11 @@ bot.on("message", async (msg) => {
             web_app: {
               url: "https://marvelous-kheer-25e032.netlify.app",
             },
+          },
+        ],
+        [
+          {
+            text: "Повторить заказ ранее",
           },
         ],
       ];
