@@ -1,8 +1,7 @@
+require("dotenv").config();
 const TelegramBot = require("node-telegram-bot-api");
-//6110612220:AAHIuT4MPFWyahCy8FOcTRrHx0USSUAvS4I
-const token = "6110612220:AAHIuT4MPFWyahCy8FOcTRrHx0USSUAvS4I";
 
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 
 const { MongoClient } = require("mongodb");
 
