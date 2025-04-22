@@ -171,9 +171,11 @@ bot.on("message", async (msg) => {
       } \n${
         !order.novaPoshta
           ? `${order.place} \n${
-              order.val.poltavapayment === "Картой"
-                ? " карта"
-                : ` сдача с ${order.val.cashAmount}`
+              order.val.poltavapayment === "Наличные"
+                ? `${order.val.poltavapayment} ${
+                    order.val.cashAmount ? order.val.cashAmount : ""
+                  } ₴`
+                : `Карта`
             }`
           : `Доставка новой почтой \n${order.val.name} \n${order.val.town} \n${order.val.compartment} \n${order.val.payment}`
       }  ${order.cart.map((el, i) => {
@@ -255,7 +257,7 @@ bot.on("message", async (msg) => {
                 data.val.poltavapayment === "Наличные"
                   ? `${data.val.poltavapayment} ${
                       data.val.cashAmount ? data.val.cashAmount : ""
-                    }`
+                    } ₴`
                   : `Карта`
               }`
             : `Доставка новой почтой \n${data.val.name} \n${data.val.town} \n${data.val.compartment} \n${data.val.payment}`
@@ -291,7 +293,7 @@ bot.on("message", async (msg) => {
             : `${data.place} \n${
                 data.val.poltavapayment === "Наличные"
                   ? `${data.val.poltavapayment} ${
-                      data.val.cashAmount ? `${data.val.cashAmount}₴` : ""
+                      data.val.cashAmount ? `${data.val.cashAmount} ₴` : ""
                     }`
                   : `Карта`
               }`
