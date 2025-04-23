@@ -326,7 +326,7 @@ bot.on("message", async (msg) => {
 });
 
 //message to all code
-bot.onText(/\/broadcast((.|\n)+)/, async (msg, match) => {
+bot.onText(/\/broadcast([\s\S]*)/, async (msg, match) => {
   if (
     msg.from.id === 951800184 ||
     msg.from.id === 862045681 ||
@@ -334,7 +334,7 @@ bot.onText(/\/broadcast((.|\n)+)/, async (msg, match) => {
   ) {
     const users = await getUser();
 
-    const caption = (match[1]?.trim() || msg.caption || "").trim();
+    const caption = (match?.[1]?.trim() || msg.caption || "").trim();
     const photo = msg.photo?.[msg.photo.length - 1];
     const video = msg.video;
     console.log("srabotal");
