@@ -337,7 +337,7 @@ bot.onText(/\/broadcast((.|\n)+)/, async (msg, match) => {
     const caption = (match[1]?.trim() || msg.caption || "").trim();
     const photo = msg.photo?.[msg.photo.length - 1];
     const video = msg.video;
-
+    console.log("srabotal");
     let successCount = 0;
     let failedCount = 0;
 
