@@ -94,7 +94,7 @@ bot.on("message", async (msg) => {
 
   const chatId = msg.chat.id;
   const username = msg.chat.username;
-  const text = msg.text;
+  const text = msg.text || msg.caption || "";
   if (
     (text === "/start" &&
       (msg.from.id === 951800184 ||
@@ -323,22 +323,21 @@ bot.on("message", async (msg) => {
       await saveUser(chatId, username, data);
     } catch {}
   }
-});
 
-//message to all code
-bot.onText(/\/broadcast([\s\S]*)/, async (msg, match) => {
-  console.log("rabotaet");
+  if (!text.startsWith("/broadcast")) return;
+
   if (
     msg.from.id === 951800184 ||
     msg.from.id === 862045681 ||
     msg.from.id === 5078137410
   ) {
-    const users = await getUser();
+    console.log("broadcast команда обнаружена");
 
-    const caption = (match?.[1]?.trim() || msg.caption || "").trim();
+    const users = await getUser();
+    const caption = text.replace("/broadcast", "").trim();
     const photo = msg.photo?.[msg.photo.length - 1];
     const video = msg.video;
-    console.log("srabotal");
+
     let successCount = 0;
     let failedCount = 0;
 
@@ -355,7 +354,6 @@ bot.onText(/\/broadcast([\s\S]*)/, async (msg, match) => {
         } else {
           await bot.sendMessage(user.chatId, caption);
         }
-
         successCount++;
       } catch (err) {
         console.error(`Ошибка отправки для ${user.chatId}:`, err.message);
@@ -369,3 +367,48 @@ bot.onText(/\/broadcast([\s\S]*)/, async (msg, match) => {
     );
   }
 });
+
+//message to all code
+// bot.onText(/\/broadcast([\s\S]*)/, async (msg, match) => {
+//   console.log("rabotaet");
+//   if (
+//     msg.from.id === 951800184 ||
+//     msg.from.id === 862045681 ||
+//     msg.from.id === 5078137410
+//   ) {
+//     const users = await getUser();
+
+//     const caption = (match?.[1]?.trim() || msg.caption || "").trim();
+//     const photo = msg.photo?.[msg.photo.length - 1];
+//     const video = msg.video;
+//     console.log("srabotal");
+//     let successCount = 0;
+//     let failedCount = 0;
+
+//     for (const user of users) {
+//       try {
+//         if (video) {
+//           await bot.sendVideo(user.chatId, video.file_id, {
+//             caption,
+//           });
+//         } else if (photo) {
+//           await bot.sendPhoto(user.chatId, photo.file_id, {
+//             caption,
+//           });
+//         } else {
+//           await bot.sendMessage(user.chatId, caption);
+//         }
+
+//         successCount++;
+//       } catch (err) {
+//         console.error(`Ошибка отправки для ${user.chatId}:`, err.message);
+//         failedCount++;
+//       }
+//     }
+
+//     bot.sendMessage(
+//       msg.chat.id,
+//       `Рассылка завершена.\n✅ Успешно: ${successCount}\n❌ Ошибки: ${failedCount}`
+//     );
+//   }
+// });
