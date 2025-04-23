@@ -327,6 +327,7 @@ bot.on("message", async (msg) => {
 
 //message to all code
 bot.onText(/\/broadcast([\s\S]*)/, async (msg, match) => {
+  console.log("rabotaet");
   if (
     msg.from.id === 951800184 ||
     msg.from.id === 862045681 ||
