@@ -132,7 +132,7 @@ bot.on("message", async (msg) => {
       },
     });
     await saveUser(chatId, username, false);
-  } else if (text === "/start") {
+  } else if (text === "/start" || text === "Назад") {
     await bot.sendMessage(chatId, `Приветствую, ${msg.from.first_name} ! 👋`, {
       reply_markup: {
         keyboard: [
