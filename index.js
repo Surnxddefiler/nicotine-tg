@@ -318,6 +318,7 @@ bot.on("message", async (msg) => {
         \nСумма : ${data.pay} ₴ ${
           data.deliv || data.novaPoshta ? "+ доставка" : ""
         }
+        \n ${data.freeDelivery ? "Бесплатная доствка" : ""}
         `
       );
       await saveUser(chatId, username, data);
