@@ -281,9 +281,9 @@ bot.on("message", async (msg) => {
           data.deliv || data.novaPoshta
             ? `${
                 data.freeDelivery && data.np
-                  ? "бесплатная доставка"
+                  ? "+ бесплатная доставка"
                   : data.freeDelivery
-                  ? "бесплатная доставка"
+                  ? "+ бесплатная доставка"
                   : "+ доставка"
               }`
             : ""
