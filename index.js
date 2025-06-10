@@ -292,9 +292,13 @@ bot.on("message", async (msg) => {
 
       await bot.sendMessage(
         -623730102,
-        `\n${data.novaPoshta ? "Новая Почта" : `${data.val.time}`} \n${
-          data.val.phone
-        } \n${
+        `\n${
+          data.novaPoshta
+            ? `Новая Почта ${
+                data.freeDelivery && data.np ? "(Бесплатно)" : ""
+              } `
+            : `${data.val.time}`
+        } \n${data.val.phone} \n${
           data.novaPoshta
             ? `${data.val.name} \n${data.val.town} ${data.val.compartment} ${data.val.payment}`
             : `${data.place} \n${
