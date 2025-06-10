@@ -278,7 +278,15 @@ bot.on("message", async (msg) => {
           }
         })}
         \nСумма : ${data.pay} ₴ ${
-          data.deliv || data.novaPoshta ? "+ доставка" : ""
+          data.deliv || data.novaPoshta
+            ? `${
+                data.freeDelivery && data.np
+                  ? "бесплатная доставка"
+                  : data.freeDelivery
+                  ? "бесплатная доставка"
+                  : "+ доставка"
+              }`
+            : ""
         }
         `,
         {
@@ -322,7 +330,7 @@ bot.on("message", async (msg) => {
         \nСумма : ${data.pay} ₴ ${
           data.deliv || data.novaPoshta ? "+ доставка" : ""
         }
-        \n ${data.freeDelivery ? "Бесплатная доствка" : ""}
+        \n ${data.freeDelivery ? "Бесплатная доставка" : ""}
         `
       );
       await saveUser(chatId, username, data);
