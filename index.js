@@ -280,9 +280,8 @@ bot.on("message", async (msg) => {
         \nСумма : ${data.pay} ₴ ${
           data.deliv || data.novaPoshta
             ? `\n${
-                data.freeDelivery && data.np
-                  ? "Бесплатная доставка включена 🚚🎁"
-                  : data.freeDelivery
+                data.freeDelivery &&
+                ((data.novaPoshta && data.np) || !data.novaPoshta)
                   ? "Бесплатная доставка включена 🚚🎁"
                   : ""
               }`
@@ -300,13 +299,9 @@ bot.on("message", async (msg) => {
 
       await bot.sendMessage(
         -623730102,
-        `\n${
-          data.novaPoshta
-            ? `Новая Почта ${
-                data.freeDelivery && data.np ? "(Бесплатно)" : ""
-              } `
-            : `${data.val.time}`
-        } \n${data.val.phone} \n${
+        `\n${data.novaPoshta ? `Новая Почта` : `${data.val.time}`} \n${
+          data.val.phone
+        } \n${
           data.novaPoshta
             ? `${data.val.name} \n${data.val.town} ${data.val.compartment} ${data.val.payment}`
             : `${data.place} \n${
@@ -330,9 +325,8 @@ bot.on("message", async (msg) => {
         \nСумма : ${data.pay} ₴ ${
           data.deliv || data.novaPoshta
             ? `\n${
-                data.freeDelivery && data.np
-                  ? "Бесплатная доставка включена 🚚🎁"
-                  : data.freeDelivery
+                data.freeDelivery &&
+                ((data.novaPoshta && data.np) || !data.novaPoshta)
                   ? "Бесплатная доставка включена 🚚🎁"
                   : ""
               }`
