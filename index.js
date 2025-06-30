@@ -278,6 +278,10 @@ bot.on("message", async (msg) => {
           }
         })}
         \nСумма : ${data.pay} ₴ ${
+          data.deliv || (data.novaPoshta && !data.freeDelivery)
+            ? "+доставка"
+            : ""
+        } ${
           data.deliv || data.novaPoshta
             ? `\n${
                 data.freeDelivery &&
@@ -323,6 +327,10 @@ bot.on("message", async (msg) => {
           }
         })}
         \nСумма : ${data.pay} ₴ ${
+          data.deliv || (data.novaPoshta && !data.freeDelivery)
+            ? "+ доставка"
+            : ""
+        } ${
           data.deliv || data.novaPoshta
             ? `\n${
                 data.freeDelivery &&
