@@ -105,53 +105,83 @@ bot.on("message", async (msg) => {
         msg.from.id === 862045681 ||
         msg.from.id === 5078137410))
   ) {
-    await bot.sendMessage(chatId, `Приветствую, ${msg.from.first_name} ! 👋`, {
-      reply_markup: {
-        keyboard: [
-          [
-            {
-              text: "Оформить заказ",
-              web_app: { url: "https://marvelous-kheer-25e032.netlify.app" },
-            },
-          ],
-          [
-            {
-              text: "Админ",
-              web_app: {
-                url: "https://marvelous-kheer-25e032.netlify.app" + "/admin",
-              },
-            },
-          ],
-          [
-            {
-              text: "Повторить заказ ранее",
-            },
-          ],
-        ],
-        resize_keyboard: true,
-      },
-    });
-    await saveUser(chatId, username, false);
+    try {
+      await bot.sendMessage(
+        chatId,
+        `Приветствую, ${msg.from.first_name} ! 👋`,
+        {
+          reply_markup: {
+            keyboard: [
+              [
+                {
+                  text: "Оформить заказ",
+                  web_app: {
+                    url: "https://marvelous-kheer-25e032.netlify.app",
+                  },
+                },
+              ],
+              [
+                {
+                  text: "Админ",
+                  web_app: {
+                    url:
+                      "https://marvelous-kheer-25e032.netlify.app" + "/admin",
+                  },
+                },
+              ],
+              [
+                {
+                  text: "Повторить заказ ранее",
+                },
+              ],
+            ],
+            resize_keyboard: true,
+          },
+        }
+      );
+      await saveUser(chatId, username, false);
+    } catch (err) {
+      if (err.response && err.response.statusCode === 403) {
+        console.log(`Пользователь ${chatId} заблокировал бота`);
+      } else {
+        console.error("Ошибка при отправке сообщения:", err);
+      }
+    }
   } else if (text === "/start" || text === "Назад") {
-    await bot.sendMessage(chatId, `Приветствую, ${msg.from.first_name} ! 👋`, {
-      reply_markup: {
-        keyboard: [
-          [
-            {
-              text: "Оформить заказ",
-              web_app: { url: "https://marvelous-kheer-25e032.netlify.app" },
-            },
-          ],
-          [
-            {
-              text: "Повторить заказ ранее",
-            },
-          ],
-        ],
-        resize_keyboard: true,
-      },
-    });
-    await saveUser(chatId, username, false);
+    try {
+      await bot.sendMessage(
+        chatId,
+        `Приветствую, ${msg.from.first_name} ! 👋`,
+        {
+          reply_markup: {
+            keyboard: [
+              [
+                {
+                  text: "Оформить заказ",
+                  web_app: {
+                    url: "https://marvelous-kheer-25e032.netlify.app",
+                  },
+                },
+              ],
+              [
+                {
+                  text: "Повторить заказ ранее",
+                },
+              ],
+            ],
+            resize_keyboard: true,
+          },
+        }
+      );
+      await saveUser(chatId, username, false);
+    } catch (err) {
+      if (err.response && err.response.statusCode === 403) {
+        console.log(`Пользователь ${chatId} заблокировал бота`);
+        // тут можно удалить юзера из базы
+      } else {
+        console.error("Ошибка при отправке сообщения:", err);
+      }
+    }
   } else if (text === "Повторить заказ ранее") {
     await connectToMongoDB();
     const db = client.db("test");
