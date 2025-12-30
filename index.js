@@ -387,54 +387,54 @@ bot.on("message", async (msg) => {
     } catch {}
   }
 
-  if (!text.startsWith("/broadcast")) return;
+  // if (!text.startsWith("/broadcast")) return;
 
-  if (
-    msg.from.id === 951800184 ||
-    msg.from.id === 862045681 ||
-    msg.from.id === 5078137410
-  ) {
-    console.log("broadcast команда обнаружена");
+  // if (
+  //   msg.from.id === 951800184 ||
+  //   msg.from.id === 862045681 ||
+  //   msg.from.id === 5078137410
+  // ) {
+  //   console.log("broadcast команда обнаружена");
 
-    const users = await getUser();
-    const caption = text.replace("/broadcast", "").trim();
-    const photo = msg.photo?.[msg.photo.length - 1];
-    const video = msg.video;
+  //   const users = await getUser();
+  //   const caption = text.replace("/broadcast", "").trim();
+  //   const photo = msg.photo?.[msg.photo.length - 1];
+  //   const video = msg.video;
 
-    let successCount = 0;
-    let failedCount = 0;
-    const sleep = ms => new Promise(r => setTimeout(r, ms));
+  //   let successCount = 0;
+  //   let failedCount = 0;
+  //   const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-    for (const user of users) {
-      try {
-        if (video) {
-          await bot.sendVideo(user.chatId, video.file_id, {
-            caption,
-          });
-        } else if (photo) {
-          await bot.sendPhoto(user.chatId, photo.file_id, {
-            caption,
-          });
-        } else {
-          await bot.sendMessage(user.chatId, caption);
-          await sleep(50);
-        }
-        successCount++;
-      } catch (err) {
-        console.error(`Ошибка отправки для ${user.chatId}:`, err.message);
-        failedCount++;
-      }
-    }
+  //   for (const user of users) {
+  //     try {
+  //       if (video) {
+  //         await bot.sendVideo(user.chatId, video.file_id, {
+  //           caption,
+  //         });
+  //       } else if (photo) {
+  //         await bot.sendPhoto(user.chatId, photo.file_id, {
+  //           caption,
+  //         });
+  //       } else {
+  //         await bot.sendMessage(user.chatId, caption);
+  //         await sleep(50);
+  //       }
+  //       successCount++;
+  //     } catch (err) {
+  //       console.error(`Ошибка отправки для ${user.chatId}:`, err.message);
+  //       failedCount++;
+  //     }
+  //   }
 
-    bot.sendMessage(
-      msg.chat.id,
-      `Рассылка завершена.\n✅ Успешно: ${successCount}\n❌ Ошибки: ${failedCount}`
-    );
-  }
+  //   bot.sendMessage(
+  //     msg.chat.id,
+  //     `Рассылка завершена.\n✅ Успешно: ${successCount}\n❌ Ошибки: ${failedCount}`
+  //   );
+  // }
 });
 
 bot.on("polling_error", (err) => {
-  console.error("Polling error:", err.code, err.message);
+  console.error("Polling errorka:", err.code, err.message);
 });
 
 //message to all code
