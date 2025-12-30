@@ -1,7 +1,13 @@
 require("dotenv").config();
 const TelegramBot = require("node-telegram-bot-api");
 
-const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
+const bot = new TelegramBot(process.env.BOT_TOKEN, {
+  polling: {
+    interval: 300,
+    timeout: 60,
+  },
+});
+
 
 const { MongoClient } = require("mongodb");
 
@@ -395,6 +401,7 @@ bot.on("message", async (msg) => {
 
     let successCount = 0;
     let failedCount = 0;
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
 
     for (const user of users) {
       try {
@@ -408,6 +415,7 @@ bot.on("message", async (msg) => {
           });
         } else {
           await bot.sendMessage(user.chatId, caption);
+          await sleep(50);
         }
         successCount++;
       } catch (err) {
