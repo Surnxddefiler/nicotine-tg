@@ -433,6 +433,10 @@ bot.on("message", async (msg) => {
   }
 });
 
+bot.on("polling_error", (err) => {
+  console.error("Polling error:", err.code, err.message);
+});
+
 //message to all code
 // bot.onText(/\/broadcast([\s\S]*)/, async (msg, match) => {
 //   console.log("rabotaet");
